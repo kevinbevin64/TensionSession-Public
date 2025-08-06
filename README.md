@@ -1,1 +1,4 @@
-../gymcoach/README.md
+# GymCoach
+
+An app for tracking strength training data. 
+
