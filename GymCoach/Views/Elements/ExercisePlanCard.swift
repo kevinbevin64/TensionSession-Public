@@ -37,7 +37,7 @@ struct ExercisePlanCard: View {
             }
         }
         .task {
-            // Determine the weight unit before the view shows 
+            // Determine the weight unit before the view shows
             weightUnit = exercise.setDetails.first?.weightPlanned.unit ?? .kilograms
         }
     }

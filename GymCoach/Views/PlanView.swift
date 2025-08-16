@@ -175,7 +175,7 @@ struct PlanView: View {
                 assertionFailure("When called, this method should not have a nil selectedWorkout.")
                 return
             }
-            add(Exercise(name: "", sets: defaultSetCount, reps: defaultRepCount, weight: Weight(defaultWeightValue, in: .kilograms)))
+            add(Exercise(name: "", sets: defaultSetCount, reps: defaultRepCount, weight: Weight(defaultWeightValue, in: dataDelegate.userInfo.weightPreference.weightUnit)))
         }
     }
 }
