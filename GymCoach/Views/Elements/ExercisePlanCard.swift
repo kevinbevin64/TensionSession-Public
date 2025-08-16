@@ -20,7 +20,11 @@ struct ExercisePlanCard: View {
     
     var body: some View {
         VStack {
-            exerciseName
+            HStack {
+                exerciseName
+                Spacer()
+                weightUnitToggle
+            }
             
             HStack(alignment: .bottom) {
                 Spacer()
@@ -32,6 +36,10 @@ struct ExercisePlanCard: View {
                 Spacer()
             }
         }
+        .task {
+            // Determine the weight unit before the view shows 
+            weightUnit = exercise.setDetails.first?.weightPlanned.unit ?? .kilograms
+        }
     }
     
     var exerciseName: some View {
@@ -39,6 +47,24 @@ struct ExercisePlanCard: View {
         return TextField("Exercise name", text: $exercise.name)
             .font(.largeTitle)
             .fontWeight(.semibold)
+    }
+    
+    /// Toggles the unit used for this exercise between kilograms and pounds.
+    var weightUnitToggle: some View {
+        Button {
+            if weightUnit == .kilograms {
+                weightUnit = .pounds
+            } else {
+                weightUnit = .kilograms
+            }
+            
+            for i in 0..<exercise.setDetails.count {
+                exercise.setDetails[i].weightPlanned.unit = weightUnit
+            }
+        } label: {
+            Text(weightUnit == .kilograms ? "kg" : "lb")
+                .fontDesign(.monospaced)
+        }
     }
     
     enum EditedValue {

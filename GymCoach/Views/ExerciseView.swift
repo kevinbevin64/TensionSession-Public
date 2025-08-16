@@ -66,7 +66,7 @@ struct ExerciseView: View {
     
     var weightPicker: some View {
         VStack {
-            Text("Weight")
+            Text("Weight (\(viewModel.weightUsed.symbol))")
             
             Picker(selection: Binding(
                 get: { viewModel.weightUsed.value },
