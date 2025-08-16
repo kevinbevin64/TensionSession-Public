@@ -20,7 +20,7 @@ struct ExercisePlanCard: View {
     
     var body: some View {
         VStack {
-            HStack {
+            HStack(alignment: .top) {
                 exerciseName
                 Spacer()
                 weightUnitToggle
@@ -64,6 +64,8 @@ struct ExercisePlanCard: View {
         } label: {
             Text(weightUnit == .kilograms ? "kg" : "lb")
                 .fontDesign(.monospaced)
+                .padding(4)
+                .background(.gray.opacity(0.4), in: Circle())
         }
     }
     
