@@ -11,6 +11,7 @@ struct Weight: Codable, Hashable {
     var value: Double
     var unit: WeightUnit
     var measurement: Measurement<UnitMass> { Measurement(value: value, unit: unit.unitMass) }
+    var symbol: String { measurement.unit.symbol }
     
     enum WeightUnit: String, Codable {
         case kilograms = "kilograms"

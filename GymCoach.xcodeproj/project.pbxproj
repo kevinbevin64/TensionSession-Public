@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A3179CF2E440782004A97DE /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0A3179CE2E440782004A97DE /* .gitignore */; };
+		0A3179D02E440782004A97DE /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0A3179CE2E440782004A97DE /* .gitignore */; };
 		0A7F511E2E2EF375005823DE /* GymCoachWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0A7F50FE2E2EF374005823DE /* GymCoachWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0A8E62322E3446E200CE4268 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A8E62312E3446E200CE4268 /* README.md */; };
 		0A8E62332E3446E200CE4268 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A8E62312E3446E200CE4268 /* README.md */; };
@@ -53,6 +55,7 @@
 /* Begin PBXFileReference section */
 		0A1AC04C2E2AD474003C2AFC /* GymCoach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A1AC05B2E2AD476003C2AFC /* GymCoachTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymCoachTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A3179CE2E440782004A97DE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		0A7F50FE2E2EF374005823DE /* GymCoachWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymCoachWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7F510A2E2EF375005823DE /* GymCoachWatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymCoachWatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A8E62312E3446E200CE4268 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -139,6 +142,7 @@
 		0A1AC0432E2AD474003C2AFC = {
 			isa = PBXGroup;
 			children = (
+				0A3179CE2E440782004A97DE /* .gitignore */,
 				0A8E62312E3446E200CE4268 /* README.md */,
 				0AC24B6A2E328DDA00326926 /* Docs */,
 				0A1AC07C2E2AD552003C2AFC /* Shared */,
@@ -313,6 +317,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A3179D02E440782004A97DE /* .gitignore in Resources */,
 				0A8E62332E3446E200CE4268 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,6 +333,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A3179CF2E440782004A97DE /* .gitignore in Resources */,
 				0A8E62322E3446E200CE4268 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -301,7 +301,7 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
     @MainActor
     func reply(to instruction: SyncInstruction, with replyHandler: @escaping ([String: Any]) -> Void) {
         switch instruction.operation {
-        case .requestAllWorkouts:
+        case .requestAllWorkouts: // Reply to a request for all workouts
             var rawWorkouts: [[String: Any]] = []
             for workout in dataDelegate.templateWorkouts {
                 rawWorkouts.append(workout.dictionaryForm)
@@ -309,6 +309,8 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
             for workout in dataDelegate.historicalWorkouts {
                 rawWorkouts.append(workout.dictionaryForm)
             }
+            print("The raw workouts are: \(rawWorkouts)")
+            
             replyHandler(SyncInstruction(
                 operation: .replyWithAllWorkouts,
                 payload: ["workouts": rawWorkouts]

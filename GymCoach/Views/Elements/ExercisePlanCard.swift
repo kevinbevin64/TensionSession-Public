@@ -11,6 +11,7 @@ struct ExercisePlanCard: View {
     let exercise: Exercise
     let weightPreference: UserInfo.WeightPreference
     @State var editedValue: EditedValue = .absent
+    @State var weightUnit: Weight.WeightUnit = .kilograms
     
     init(_ exercise: Exercise, weightPreference: UserInfo.WeightPreference) {
         self.exercise = exercise
@@ -113,7 +114,7 @@ struct ExercisePlanCard: View {
     
     var weightDisplay: some View {
         VStack(spacing: textPickerSpacing) {
-            Text("Weight")
+            Text("Weight (\(exercise.setDetails[0].weightPlanned.symbol))")
             
             if editedValue == .weight {
                 // Editing the rep count

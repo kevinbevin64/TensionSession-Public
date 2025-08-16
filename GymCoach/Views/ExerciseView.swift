@@ -37,10 +37,6 @@ struct ExerciseView: View {
         }
     }
     
-//    var timeView: some View {
-//        Text(viewModel.timeKeeper.timeDisplay.oneDPString)
-//    }
-    
     var exerciseName: some View {
         Text(viewModel.exercise.name)
             .font(.largeTitle)
@@ -58,7 +54,7 @@ struct ExerciseView: View {
                 get: { viewModel.repsDone },
                 set: { viewModel.repsDone = $0 }
             )) {
-                ForEach(0..<100) { value in
+                ForEach(Array(stride(from: minRepCount, to: maxRepCount, by: 1)), id: \.self) { value in
                     Text("\(value)").tag(value)
                 }
             } label: {
@@ -76,7 +72,7 @@ struct ExerciseView: View {
                 get: { viewModel.weightUsed.value },
                 set: { viewModel.weightUsed = Weight($0, in: .kilograms) }
             )) {
-                ForEach(Array(stride(from: 0.0, to: 100.0, by: 0.5)), id: \.self) { value in
+                ForEach(Array(stride(from: minWeightValue, to: maxWeightValue, by: 0.5)), id: \.self) { value in
                     Text("\(value.oneDPString)").tag(value)
                 }
             } label: {
