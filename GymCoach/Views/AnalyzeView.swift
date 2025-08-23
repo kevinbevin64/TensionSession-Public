@@ -20,17 +20,21 @@ struct AnalyzeView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(viewModel.exerciseWeightsCaches.sorted(by: { $0.name < $1.name }), id: \.id) { cache in
-                    NavigationLink(value: cache) {
+                ForEach(viewModel.exerciseNames, id: \.self) { name in
+                    NavigationLink(value: name) {
                         HStack(alignment: .top) {
                             VStack(alignment: .leading) {
-                                Text(cache.name)
+                                Text(name)
                                     .font(.title2)
                                     .fontWeight(.semibold)
                                     .fontDesign(.rounded)
                             }
                             Spacer()
-                            WeightLineChart(weights: cache.weights.map { $0.value }, width: 120, height: 60)
+                            WeightLineChart(
+                                weights: viewModel.chartValues(for: name),
+                                width: 120,
+                                height: 60
+                            )
                         }
                     }
                     .listRowInsets(exerciseAnalyzeCardEdgeInsets)
@@ -39,20 +43,44 @@ struct AnalyzeView: View {
             }
             .roundedListStyle()
             .navigationTitle("Analyze")
-            .navigationDestination(for: ExerciseWeightsCache.self) { cache in 
-                AnalyzeDetailView(cache: cache)
+            .navigationDestination(for: String.self) { exerciseName in
+                AnalyzeDetailView(
+                    exerciseName: exerciseName,
+                    workoutDataAnalyzer: viewModel.workoutDataAnalyzer,
+                    dataDelegate: dataDelegate
+                )
             }
         }
+        .onAppear { viewModel.refresh() }
+        .onChange(of: dataDelegate.historicalWorkouts.map { $0.id }) { _ in viewModel.refresh() }
     }
     
     @Observable
     @MainActor final class ViewModel {
         let dataDelegate: DataDelegate
-        var exerciseWeightsCaches: [ExerciseWeightsCache] { dataDelegate.exerciseWeightsCaches }
+        let workoutDataAnalyzer: WorkoutDataAnalyzer
         var orderMethod: SortOrder = .forward
         
         init(dataDelegate: DataDelegate) {
             self.dataDelegate = dataDelegate
+            let analyzer = WorkoutDataAnalyzer(dataDelate: dataDelegate)
+            analyzer.gatherData()
+            self.workoutDataAnalyzer = analyzer
+        }
+        
+        var exerciseNames: [String] {
+            workoutDataAnalyzer.exerciseData.keys.sorted(by: <)
+        }
+        
+        func chartValues(for exerciseName: String) -> [Double] {
+            guard let weights = workoutDataAnalyzer.exerciseData[exerciseName] else { return [] }
+            let unit = dataDelegate.userInfo.weightPreference.weightUnit
+            return weights.map { $0.converted(to: unitMassEquivalent(of: unit)).value }
+        }
+        
+        func refresh() {
+            workoutDataAnalyzer.exerciseData.removeAll()
+            workoutDataAnalyzer.gatherData()
         }
         
         func toggleOrderMethod() {

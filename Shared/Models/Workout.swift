@@ -102,35 +102,47 @@ extension Workout: WatchTransferrable {
         case id // non-optional
         case name // non-optional
         case isTemplate // non-optional
-//        case dateAdded // non-optional
+        case dateAdded // non-optional
         case startTime
         case endTime
         case exercises // non-optional
     }
 
     var dictionaryForm: [String: Any] {
+        let isoFormatter = ISO8601DateFormatter()
         // Non-optional values
         var dict: [String: Any] = [
             CodingKeys.id.rawValue: id.uuidString,
             CodingKeys.name.rawValue: name,
             CodingKeys.isTemplate.rawValue: isTemplate,
+            CodingKeys.dateAdded.rawValue: isoFormatter.string(from: dateAdded),
             CodingKeys.exercises.rawValue: exercises.map { $0.dictionaryForm },
         ]
 
         // Add optional values if they contain values
-        dict.optionallyAdd(startTime, forKey: CodingKeys.startTime.rawValue)
-        dict.optionallyAdd(endTime, forKey: CodingKeys.endTime.rawValue)
+        // isoFormatter.string converts the date into a JSON-compatible string
+        if let startTime {
+            dict[CodingKeys.startTime.rawValue] = isoFormatter.string(from: startTime)
+        }
+        if let endTime {
+            dict[CodingKeys.endTime.rawValue] = isoFormatter.string(from: endTime)
+        }
 
         return dict
     }
 
     // Create a Workout instance from its dictionary representation
     convenience init?(from dictionary: [String: Any]) {
+        let isoFormatter = ISO8601DateFormatter()
         guard
             let uuidString = dictionary[CodingKeys.id.rawValue] as? String,
             let id = UUID(uuidString: uuidString),
             let name = dictionary[CodingKeys.name.rawValue] as? String,
             let isTemplate = dictionary[CodingKeys.isTemplate.rawValue] as? Bool,
+            // Dates 
+            let dateAddedString = dictionary[CodingKeys.dateAdded.rawValue] as? String,
+            let dateAdded = isoFormatter.date(from: dateAddedString),
+            // Exercises
             let rawExercises = dictionary[CodingKeys.exercises.rawValue] as? [[String: Any]],
             let exercises: [Exercise] = {
                 // Requires that all exercises can be fully formed
@@ -148,13 +160,22 @@ extension Workout: WatchTransferrable {
             print("Failed to create workout from the dictionary")
             return nil
         }
-
+        
         self.init(
             id: id,
             name: name,
             isTemplate: isTemplate,
-            startTime: dictionary[CodingKeys.startTime.rawValue] as? Date,
-            endTime: dictionary[CodingKeys.endTime.rawValue] as? Date,
+            dateAdded: dateAdded,
+            startTime: {
+                if let startTimeString = dictionary[CodingKeys.startTime.rawValue] as? String, let startTime = isoFormatter.date(from: startTimeString) {
+                    return startTime
+                } else { return nil }
+            }(),
+            endTime: {
+                if let endTimeString = dictionary[CodingKeys.endTime.rawValue] as? String, let endTime = isoFormatter.date(from: endTimeString) {
+                    return endTime
+                } else { return nil }
+            }(),
             exercises: exercises
         )
     }

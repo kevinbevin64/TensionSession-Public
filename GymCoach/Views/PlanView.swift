@@ -55,6 +55,11 @@ struct PlanView: View {
             }
             .roundedListStyle()
             .navigationTitle("Plan")
+            .toolbar {
+                if viewModel.dataDelegate.userInfo.wasWatchAppInstalled {
+                    toolbarContents
+                }
+            }
         }
         // Add alert for naming new workout
         .alert("Name your workout", isPresented: $showNewWorkoutAlert) {
@@ -96,6 +101,22 @@ struct PlanView: View {
             
             Button("Delete all historical workouts") {
                 viewModel.dataDelegate.deleteAllHistoricalWorkouts()
+            }
+        }
+    }
+    
+    var toolbarContents: some ToolbarContent {
+        if let selectedWorkout = viewModel.selectedWorkout {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Send to watch") {
+                    viewModel.propagateChanges(in: selectedWorkout)
+                }
+            }
+        } else {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("No selected workout") {
+                    
+                }
             }
         }
     }
@@ -148,7 +169,11 @@ struct PlanView: View {
                 }
             }
             // The workout needs to be removed first to prevent stale reference
-            companion.deleteTemplateWorkout(workout)
+            if dataDelegate.templateWorkouts.count == 1 {
+                companion.deleteAllTemplateWorkouts()
+            } else {
+                companion.deleteTemplateWorkout(workout)
+            }
             dataDelegate.deleteTemplateWorkout(workout)
         }
         
@@ -176,6 +201,11 @@ struct PlanView: View {
                 return
             }
             add(Exercise(name: "", sets: defaultSetCount, reps: defaultRepCount, weight: Weight(defaultWeightValue, in: dataDelegate.userInfo.weightPreference.weightUnit)))
+        }
+        
+        // Propagates changes to the watch counterpart
+        func propagateChanges(in workout: Workout) {
+            companion.updateTemplateWorkout(workout)
         }
     }
 }

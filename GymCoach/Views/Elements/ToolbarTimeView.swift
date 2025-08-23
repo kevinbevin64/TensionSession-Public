@@ -8,19 +8,15 @@
 import SwiftUI
 
 struct ToolbarTimeView: ToolbarContent {
-    let timeKeeper: TimeKeeper
+    let timeKeeper: TimeKeeperProtocol
     
-    init(_ timeKeeper: TimeKeeper) {
+    init(_ timeKeeper: TimeKeeperProtocol) {
         self.timeKeeper = timeKeeper
     }
     
     var body: some ToolbarContent {
         ToolbarItem(placement: .principal) {
-            Text("\(timeKeeper.timeDisplay)")
-                .font(.body)
-                .fontWeight(.medium)
-                .fontDesign(.rounded)
-                .foregroundStyle(.yellow)
+            TimeKeeperView(timeKeeper)
             
         }
     }

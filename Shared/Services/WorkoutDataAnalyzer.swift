@@ -8,11 +8,32 @@
 import Foundation
 
 @MainActor
+@Observable
 final class WorkoutDataAnalyzer: WorkoutDataAnalyzerProtocol {
+    static var shared: WorkoutDataAnalyzer?
     var dataDelegate: DataDelegate
+    var exerciseData: [String: [Weight]]
     
     init(dataDelate: DataDelegate) {
         self.dataDelegate = dataDelate
+        self.exerciseData = [:]
+    }
+    
+    func gatherData() {
+        for historicalWorkout in dataDelegate.historicalWorkouts {
+            print("Going through a workout done on \(historicalWorkout.endTime!)")
+            for exercise in historicalWorkout.exercises {
+                for i in 0..<exercise.setsDone {
+                    // Traverse in reversed order
+                    if exerciseData[exercise.name] != nil {
+                        exerciseData[exercise.name]?.append(exercise.setDetails[i].weightUsed!)
+                    } else {
+                        exerciseData[exercise.name] = []
+                        exerciseData[exercise.name]?.append(exercise.setDetails[i].weightUsed!)
+                    }
+                }
+            }
+        }
     }
     
     func weightTrendFor(
@@ -102,6 +123,24 @@ final class WorkoutDataAnalyzer: WorkoutDataAnalyzerProtocol {
             }
             if weightUnit == nil { assertionFailure("WeightUnit should not be nil by this point.") }
         }
+        return weights
+    }
+    
+    func weightTrendFor(exerciseName: String) -> [Weight] {
+        if let data = exerciseData[exerciseName] {
+            return data
+        }
+        var weights = [Weight]()
+        for historicalWorkout in dataDelegate.historicalWorkouts {
+            for exercise in historicalWorkout.exercises {
+                for i in 0..<exercise.setsDone {
+                    // Traverse in reversed order
+                    let index = exercise.setsDone - i - 1
+                    weights.append(exercise.setDetails[index].weightUsed!)
+                }
+            }
+        }
+        exerciseData[exerciseName] = weights
         return weights
     }
 }

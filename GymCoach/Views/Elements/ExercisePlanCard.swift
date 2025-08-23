@@ -116,7 +116,11 @@ struct ExercisePlanCard: View {
                 // Editing the rep count
                 Picker("Reps", selection: Binding(
                         get: { exercise.setDetails[0].repsPlanned },
-                        set: { exercise.setDetails[0].repsPlanned = $0 }
+                        set: {
+                            for i in 0..<exercise.setDetails.count {
+                                exercise.setDetails[i].repsPlanned = $0
+                            }
+                        }
                 )) {
                     ForEach(minRepCount...maxRepCount, id: \.self) { repCount in
                         Text("\(repCount)").tag(repCount)
@@ -148,7 +152,11 @@ struct ExercisePlanCard: View {
                 // Editing the rep count
                 Picker("Weight", selection: Binding(
                         get: { exercise.setDetails[0].weightPlanned.value },
-                        set: { exercise.setDetails[0].weightPlanned.value = $0 }
+                        set: {
+                            for i in 0..<exercise.setDetails.count {
+                                exercise.setDetails[i].weightPlanned.value = $0
+                            }
+                        }
                 )) {
                     ForEach(Array(stride(from: minWeightValue, to: maxWeightValue, by: 0.5)), id: \.self) { weightValue in
                         Text(weightValue.oneDPString).tag(weightValue)

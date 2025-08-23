@@ -34,6 +34,7 @@ final class SyncInstruction: WatchTransferrable, Identifiable {
 
     init(operation: Operation, payload: [String: Any] = [:]) {
         self.operation = operation
+        print(payload)
         self.payloadData = (try? JSONSerialization.data(withJSONObject: payload)) ?? Data()
     }
 

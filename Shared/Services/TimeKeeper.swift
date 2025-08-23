@@ -13,7 +13,7 @@ import SwiftData
 
 // This service publishes one value, `displayTime`, which is observed by a view.
 @Observable
-final class TimeKeeper {
+final class TimeKeeper: TimeKeeperProtocol {
     // This is the value that is observed by timer views. All other values are un-observed.
     var timeDisplay: String {
         let timeElapsed = timeElapsed

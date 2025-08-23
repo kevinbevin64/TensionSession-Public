@@ -21,7 +21,8 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
         session.delegate = self
         session.activate()
     }
-
+    
+    // MARK: - Activation
     func session(
         _ session: WCSession,
         activationDidCompleteWith activationState: WCSessionActivationState,
@@ -38,6 +39,7 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
                 Task { @MainActor in
                 #if os(iOS)
                     
+                    print("iPhone has a paired apple watch: \(session.isPaired)")
                     sendPendingInstructions()
                     
                 #elseif os(watchOS)
@@ -126,27 +128,38 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
     }
     
     func requestAllWorkouts() {
+        print("Requesting all workouts...")
         let requestInstruction = SyncInstruction(
             operation: .requestAllWorkouts,
             payload: [:]
         )
-        session.sendMessage(
-            requestInstruction.dictionaryForm,
-            replyHandler: { rawInstruction in
-                self.process(rawInstruction)
-                
-                // rawInstruction's structure is as follows:
-                /*
-                 "operation": "requestAllWorkouts",
-                 "payload": [
+        #if os(watchOS)
+        print("isCompanionAppInstalled: \(session.isCompanionAppInstalled)")
+        print("iOSDeviceNeedsUnlockAfterRebootForReachability: \(session.iOSDeviceNeedsUnlockAfterRebootForReachability)")
+        print("iPhone is reachable: \(session.isReachable)")
+        #elseif os(iOS)
+        print("watch is reachable: \(session.isReachable)")
+        #endif
+        if session.isReachable {
+            session.sendMessage(
+                requestInstruction.dictionaryForm,
+                replyHandler: { rawInstruction in
+                    print("Processing incoming initial-sync-stuff.")
+                    self.process(rawInstruction)
+                    
+                    // rawInstruction's structure is as follows:
+                    /*
+                     "operation": "requestAllWorkouts",
+                     "payload": [
                      "workouts": [ [String: Any], ... ] where each [String: Any] represents a workout
-                 ]
-                */
-            },
-            errorHandler: { error in
-                assertionFailure("Failed to request all workouts! \(error)")
-            }
-        )
+                     ]
+                     */
+                },
+                errorHandler: { error in
+                    assertionFailure("Failed to request all workouts! \(error)")
+                }
+            )
+        }
     }
         
     @MainActor
@@ -204,7 +217,8 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
             process(instruction)
         }
     }
-
+    
+    // MARK: - Processing incoming data
     @MainActor
     func process(_ instruction: SyncInstruction) {
         
@@ -239,7 +253,12 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
             template.edit(with: reference)
             
         case .deleteTemplateWorkout:
+            print("Deleting a template workout")
             dataDelegate.deleteTemplateWorkout(Workout(from: instruction.payload)!)
+            print("The remaining template workouts are:")
+            for templateWorkout in dataDelegate.templateWorkouts {
+                print(templateWorkout.name)
+            }
             
         case .deleteAllTemplateWorkouts:
             dataDelegate.deleteAllTemplateWorkouts()
@@ -251,10 +270,18 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
             print("Accepting reply containing all workouts!")
             guard let rawWorkouts = instruction.payload["workouts"] as? [[String: Any]],
                   let workouts = {
-                      let _workouts: [Workout] = rawWorkouts.compactMap { Workout(from: $0) }
-                      
-                      // Require that all workouts convert successfully
-                      assert(_workouts.count == rawWorkouts.count)
+                      var _workouts = [Workout]()
+                      for rawWorkout in rawWorkouts {
+                          if let workout = Workout(from: rawWorkout) {
+                              _workouts.append(workout)
+                          } else {
+                              assertionFailure("""
+                              Failed on the following workout: 
+                              ================================
+                              rawWorkout: \(rawWorkout)
+                              """)
+                          }
+                      }
                       return _workouts
                   }()
             else {
@@ -271,6 +298,7 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
             // Once the initial sync completes, the watch no longer needs to request for all data
             // from the phone.
             dataDelegate.userInfo.wasWatchAppInstalled = true
+            print("Telling iPhone that watch app was installed.")
             updateUserInfo(dataDelegate.userInfo) // Tell iPhone that watch app was installed
             
     
@@ -309,7 +337,6 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
             for workout in dataDelegate.historicalWorkouts {
                 rawWorkouts.append(workout.dictionaryForm)
             }
-            print("The raw workouts are: \(rawWorkouts)")
             
             replyHandler(SyncInstruction(
                 operation: .replyWithAllWorkouts,
@@ -356,5 +383,20 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
     
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any]) {
         process(userInfo)
+    }
+    
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        print("Session reachability changed: \(session.isReachable)")
+        #if os(watchOS)
+        
+        Task { @MainActor in
+            // Requests for all workouts if the watch app was just installed and the iPhone
+            // is reachable.
+            if !dataDelegate.userInfo.wasWatchAppInstalled && session.isReachable {
+                requestAllWorkouts()
+            }
+        }
+        
+        #endif
     }
 }

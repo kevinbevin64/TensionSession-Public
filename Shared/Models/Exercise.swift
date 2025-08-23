@@ -95,15 +95,18 @@ extension Exercise: WatchTransferrable {
         case setsPlanned
         case setsDone
         case setDetails
+        case dateAdded
     }
     
     var dictionaryForm: [String: Any] {
-        [
+        let isoFormatter = ISO8601DateFormatter()
+        return [
             CodingKeys.id.rawValue: id.uuidString,
             CodingKeys.name.rawValue: name,
             CodingKeys.setsPlanned.rawValue: setsPlanned,
             CodingKeys.setsDone.rawValue: setsDone,
-            CodingKeys.setDetails.rawValue: setDetails.map { $0.dictionaryForm }
+            CodingKeys.setDetails.rawValue: setDetails.map { $0.dictionaryForm },
+            CodingKeys.dateAdded.rawValue: isoFormatter.string(from: dateAdded)
         ]
     }
     
@@ -120,7 +123,9 @@ extension Exercise: WatchTransferrable {
                 // Otherwise, return nil, failing the guard
                 let _sets = rawSetDetails.compactMap { SetDetail(from: $0) }
                 return _sets.count == rawSetDetails.count ? _sets : nil
-            }()
+            }(),
+            let dateAddedString = dictionary[CodingKeys.dateAdded.rawValue] as? String,
+            let dateAdded = ISO8601DateFormatter().date(from: dateAddedString)
         else {
             print("Failed to create exercise from dictioanry")
             return nil
@@ -132,6 +137,7 @@ extension Exercise: WatchTransferrable {
             setsPlanned: setsPlanned,
             setsDone: setsDone,
             setDetails: setDetails,
+            dateAdded: dateAdded
         )
     }
 }

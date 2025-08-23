@@ -153,18 +153,11 @@ enum TimeKeeperMode {
 
 protocol TimeKeeperProtocol {
     // The displayed time
-    var timeDisplay: TimeInterval { get }
+    var timeDisplay: String { get }
+    var isRunning: Bool { get }
     
-    // The amount of time after starting that the user should be alerted
-    var alertAfter: TimeInterval? { get }
     
-    // A closure to execute when `alertAfter` amount of time has elapsed.
-    var alert: (() -> Void)? { get }
-    
-    // The type of time keeping to be done. Either stopwatch or timer. 
-    var mode: TimeKeeperMode { get }
-    
-    func start()
+    func resume()
     func pause()
     
     // Sets the value of time display depending on the mode.

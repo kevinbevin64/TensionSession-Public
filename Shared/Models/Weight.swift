@@ -41,6 +41,14 @@ struct Weight: Codable, Hashable {
     func convert(to unit: WeightUnit) -> Weight {
         convert(to: unitMassEquivalent(of: unit))
     }
+    
+    func converted(to unit: UnitMass) -> Weight {
+        convert(to: unit)
+    }
+    
+    func converted(to unit: WeightUnit) -> Weight {
+        convert(to: unit)
+    }
 }
 
 // MARK: Converting WeightUnit and UnitMass

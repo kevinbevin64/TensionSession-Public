@@ -27,6 +27,9 @@ struct RecordView: View {
         .onAppear {
             viewModel.refresh()
         }
+        .onChange(of: viewModel.templateWorkouts.map { $0.id }) { _ in
+            viewModel.refresh()
+        }
     }
     
     /// Shown when there is at least one workout.

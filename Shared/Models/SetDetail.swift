@@ -46,7 +46,6 @@ struct SetDetail: Codable {
 extension SetDetail: WatchTransferrable {
     /// Creates a dictionary form of a Weight instance.
     var dictionaryForm: [String: Any] {
-        // Set non-optional values
         var dictionaryForm: [String: Any] = [
             "repsPlanned": self.repsPlanned,
             "weightPlanned": self.weightPlanned.dictionaryForm,

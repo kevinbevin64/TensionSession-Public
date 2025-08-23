@@ -31,6 +31,7 @@ struct GymCoachApp: App {
         WindowGroup {
             ContentView(dataDelegate: dataDelegate, companion: companion)
                 .environment(dataDelegate)
+                .preferredColorScheme(.dark)
         }
     }
 }
