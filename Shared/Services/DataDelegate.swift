@@ -73,6 +73,11 @@ import SwiftData
     func addTemplateWorkout(_ workout: Workout) {
         assert(workout.isTemplate == true, "Attempted to add historical workout as template.")
         templateWorkouts.append(workout)
+//        if !templateWorkouts.contains(where: { $0.id == workout.id}) {
+//            templateWorkouts.append(workout)
+//        } else {
+//            devPrint("Attempted to add a template when it already existed")
+//        }
         context.insert(workout)
         try? context.save()
     }

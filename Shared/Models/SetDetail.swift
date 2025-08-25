@@ -61,7 +61,6 @@ extension SetDetail: WatchTransferrable {
     }
     
     init?(from dictionary: [String: Any]) {
-        print("doing this")
         guard
             // Requires non-optional repsPlanned and weightPlanned values
             let repsPlanned = dictionary["repsPlanned"] as? Int,
@@ -83,8 +82,6 @@ extension SetDetail: WatchTransferrable {
             self.repsDone = repsDone
             self.weightUsed = weightUsed
         }
-        
-        print("Successfully created set detail from dictioanry")
     }
 }
 

@@ -22,7 +22,8 @@ final class Workout: Identifiable {
     var dateAdded: Date
     var startTime: Date?
     var endTime: Date?
-    @Relationship(deleteRule: .cascade)
+    
+    @Relationship(deleteRule: .cascade, inverse: \Exercise.workout)
     var exercises: [Exercise]
 
     enum Status {

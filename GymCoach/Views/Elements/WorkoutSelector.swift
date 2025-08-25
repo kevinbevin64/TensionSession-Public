@@ -81,10 +81,11 @@ struct WorkoutSelector: View {
 
         WorkoutSelector(
             selection: $selectedWorkout,
-            options: options
-        ) {
-            options.append(Workout(name: "Test workout \(options.count + 1)"))
-        }
+            options: options,
+            onDeleteWorkoutTapped:  {
+                options.append(Workout(name: "Test workout \(options.count + 1)"))
+            }
+        )
     }
 
 }

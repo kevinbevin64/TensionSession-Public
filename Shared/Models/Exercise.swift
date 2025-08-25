@@ -12,6 +12,9 @@ import SwiftData
 final class Exercise: Identifiable {
     var id: UUID
     var name: String
+    
+    @Relationship(inverse: nil)
+    var workout: Workout?
     var setsPlanned: Int
     var setsDone: Int
     var setDetails: [SetDetail] // Rep and weight details

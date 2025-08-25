@@ -9,11 +9,15 @@ import SwiftData
 import SwiftUI
 
 @main
-struct GymCoachApp: App {
+struct iOSApp: App {
     let dataDelegate: DataDelegate
     let companion: Companion
     
     init() {
+        if VersionTracker.shouldStoreAppVersion() {
+            VersionTracker.storeAppVersion()
+        }
+        
         let container = {
             try! ModelContainer(
                 for: Workout.self, Exercise.self, SyncInstruction.self, UserInfo.self, ExerciseWeightsCache.self,

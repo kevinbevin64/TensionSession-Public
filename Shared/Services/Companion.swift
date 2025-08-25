@@ -44,9 +44,7 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
                     
                 #elseif os(watchOS)
                     
-                    if !dataDelegate.userInfo.wasWatchAppInstalled {
-                        requestAllWorkouts()
-                    } else {
+                    if dataDelegate.userInfo.wasWatchAppInstalled {
                         sendPendingInstructions()
                     }
                     
@@ -289,6 +287,8 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
                 return
             }
             for workout in workouts {
+                print("Adding workout: \(workout.name), isTemplate: \(workout.isTemplate)")
+                
                 if workout.isTemplate {
                     dataDelegate.addTemplateWorkout(workout)
                 } else { // is historical
@@ -326,15 +326,23 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
         }
     }
     
+    // This happens on the phone
     @MainActor
     func reply(to instruction: SyncInstruction, with replyHandler: @escaping ([String: Any]) -> Void) {
         switch instruction.operation {
         case .requestAllWorkouts: // Reply to a request for all workouts
             var rawWorkouts: [[String: Any]] = []
+            devPrint("Turning all the template and historical workouts into their raw form for transport...")
+            
+            devPrint("- Now converting template workouts...")
             for workout in dataDelegate.templateWorkouts {
+                devPrint("Converting template workout of name: \(workout.name)")
                 rawWorkouts.append(workout.dictionaryForm)
             }
+
+            devPrint("- Now converting historical workouts...")
             for workout in dataDelegate.historicalWorkouts {
+                devPrint("Converting historical workout of name: \(workout.name)")
                 rawWorkouts.append(workout.dictionaryForm)
             }
             
@@ -385,6 +393,7 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
         process(userInfo)
     }
     
+    // MARK: - Reachability changes
     func sessionReachabilityDidChange(_ session: WCSession) {
         print("Session reachability changed: \(session.isReachable)")
         #if os(watchOS)
