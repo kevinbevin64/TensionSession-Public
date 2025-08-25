@@ -15,24 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A7F50FD2E2EF374005823DE"
-               BuildableName = "GymCoachWatch.app"
-               BlueprintName = "GymCoachWatch"
-               ReferencedContainer = "container:GymCoach.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "NO"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A1AC04B2E2AD474003C2AFC"
-               BuildableName = "GymCoach.app"
-               BlueprintName = "GymCoach"
-               ReferencedContainer = "container:GymCoach.xcodeproj">
+               BuildableName = "TensionSession.app"
+               BlueprintName = "TensionSession"
+               ReferencedContainer = "container:TensionSession.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -41,8 +27,37 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:GymCoachTests/GymCoachTestPlan.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A1AC05A2E2AD476003C2AFC"
+               BuildableName = "TensionSessionTests.xctest"
+               BlueprintName = "TensionSessionTests"
+               ReferencedContainer = "container:TensionSession.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A1AC0642E2AD476003C2AFC"
+               BuildableName = "GymCoachUITests.xctest"
+               BlueprintName = "GymCoachUITests"
+               ReferencedContainer = "container:TensionSession.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -58,10 +73,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0A7F50FD2E2EF374005823DE"
-            BuildableName = "GymCoachWatch.app"
-            BlueprintName = "GymCoachWatch"
-            ReferencedContainer = "container:GymCoach.xcodeproj">
+            BlueprintIdentifier = "0A1AC04B2E2AD474003C2AFC"
+            BuildableName = "TensionSession.app"
+            BlueprintName = "TensionSession"
+            ReferencedContainer = "container:TensionSession.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -75,10 +90,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0A7F50FD2E2EF374005823DE"
-            BuildableName = "GymCoachWatch.app"
-            BlueprintName = "GymCoachWatch"
-            ReferencedContainer = "container:GymCoach.xcodeproj">
+            BlueprintIdentifier = "0A1AC04B2E2AD474003C2AFC"
+            BuildableName = "TensionSession.app"
+            BlueprintName = "TensionSession"
+            ReferencedContainer = "container:TensionSession.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
