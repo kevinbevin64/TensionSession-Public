@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0A3179CF2E440782004A97DE /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0A3179CE2E440782004A97DE /* .gitignore */; };
 		0A3179D02E440782004A97DE /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0A3179CE2E440782004A97DE /* .gitignore */; };
+		0A6EA9D62E5AB7F2003919A2 /* TensionSessionAppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 0A6EA9D52E5AB7F2003919A2 /* TensionSessionAppIcon.icon */; };
+		0A6EA9D72E5AB7F2003919A2 /* TensionSessionAppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 0A6EA9D52E5AB7F2003919A2 /* TensionSessionAppIcon.icon */; };
 		0A7F511E2E2EF375005823DE /* GymCoachWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0A7F50FE2E2EF374005823DE /* GymCoachWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0A8E62322E3446E200CE4268 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A8E62312E3446E200CE4268 /* README.md */; };
 		0A8E62332E3446E200CE4268 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A8E62312E3446E200CE4268 /* README.md */; };
@@ -56,6 +58,7 @@
 		0A1AC04C2E2AD474003C2AFC /* GymCoach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A1AC05B2E2AD476003C2AFC /* GymCoachTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymCoachTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3179CE2E440782004A97DE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		0A6EA9D52E5AB7F2003919A2 /* TensionSessionAppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = TensionSessionAppIcon.icon; sourceTree = "<group>"; };
 		0A7F50FE2E2EF374005823DE /* GymCoachWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymCoachWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A7F510A2E2EF375005823DE /* GymCoachWatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymCoachWatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A8E62312E3446E200CE4268 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -138,6 +141,7 @@
 				0A7F50FF2E2EF374005823DE /* GymCoachWatch */,
 				0A7F510D2E2EF375005823DE /* GymCoachWatchTests */,
 				0A1AC04D2E2AD474003C2AFC /* Products */,
+				0A6EA9D52E5AB7F2003919A2 /* TensionSessionAppIcon.icon */,
 			);
 			sourceTree = "<group>";
 		};
@@ -305,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3179D02E440782004A97DE /* .gitignore in Resources */,
+				0A6EA9D72E5AB7F2003919A2 /* TensionSessionAppIcon.icon in Resources */,
 				0A8E62332E3446E200CE4268 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3179CF2E440782004A97DE /* .gitignore in Resources */,
+				0A6EA9D62E5AB7F2003919A2 /* TensionSessionAppIcon.icon in Resources */,
 				0A8E62322E3446E200CE4268 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -508,7 +514,7 @@
 		0A1AC0702E2AD476003C2AFC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = TensionSessionAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -516,6 +522,7 @@
 				DEVELOPMENT_TEAM = HF3UP84NP5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tension Session";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -542,7 +549,7 @@
 		0A1AC0712E2AD476003C2AFC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = TensionSessionAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -550,6 +557,7 @@
 				DEVELOPMENT_TEAM = HF3UP84NP5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tension Session";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -614,14 +622,14 @@
 		0A7F51202E2EF375005823DE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = TensionSessionAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HF3UP84NP5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = GymCoach;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tension Session";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = name.kevinchen.GymCoach;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -643,14 +651,14 @@
 		0A7F51212E2EF375005823DE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = TensionSessionAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HF3UP84NP5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = GymCoach;
+				INFOPLIST_KEY_CFBundleDisplayName = "Tension Session";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = name.kevinchen.GymCoach;
 				LD_RUNPATH_SEARCH_PATHS = (
