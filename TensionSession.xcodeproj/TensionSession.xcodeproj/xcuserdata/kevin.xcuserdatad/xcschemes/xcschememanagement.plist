@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>GymCoach.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+		<key>TensionSession.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>TensionSessionWatch.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>0A1AC04B2E2AD474003C2AFC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0A1AC05A2E2AD476003C2AFC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0A1AC0642E2AD476003C2AFC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0A7F50FD2E2EF374005823DE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0A7F51092E2EF375005823DE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

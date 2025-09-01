@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "6EF50208-6FDB-4875-9200-E2AC43A3FE54",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:GymCoach.xcodeproj",
+        "identifier" : "0A1AC05A2E2AD476003C2AFC",
+        "name" : "GymCoachTests"
+      }
+    }
+  ],
+  "version" : 1
+}
