@@ -11,6 +11,8 @@
 		0A0055E12E6618DF000BA11C /* sync-latest-commit.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0A0055DF2E6618DF000BA11C /* sync-latest-commit.sh */; };
 		0A0055E32E6619D7000BA11C /* allowlist.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0A0055E22E6619D7000BA11C /* allowlist.txt */; };
 		0A0055E42E6619D7000BA11C /* allowlist.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0A0055E22E6619D7000BA11C /* allowlist.txt */; };
+		0A0055E92E662047000BA11C /* RELEASES.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A0055E82E662047000BA11C /* RELEASES.md */; };
+		0A0055EA2E662047000BA11C /* RELEASES.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A0055E82E662047000BA11C /* RELEASES.md */; };
 		0A304F5F2E5D19AB00593C18 /* PRIVACY.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A304F5E2E5D19AB00593C18 /* PRIVACY.md */; };
 		0A304F602E5D19AB00593C18 /* PRIVACY.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A304F5E2E5D19AB00593C18 /* PRIVACY.md */; };
 		0A3179CF2E440782004A97DE /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0A3179CE2E440782004A97DE /* .gitignore */; };
@@ -63,6 +65,7 @@
 /* Begin PBXFileReference section */
 		0A0055DF2E6618DF000BA11C /* sync-latest-commit.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "sync-latest-commit.sh"; sourceTree = "<group>"; };
 		0A0055E22E6619D7000BA11C /* allowlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = allowlist.txt; sourceTree = "<group>"; };
+		0A0055E82E662047000BA11C /* RELEASES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = RELEASES.md; sourceTree = "<group>"; };
 		0A1AC04C2E2AD474003C2AFC /* TensionSession.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TensionSession.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A1AC05B2E2AD476003C2AFC /* TensionSessionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TensionSessionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A304F5E2E5D19AB00593C18 /* PRIVACY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY.md; sourceTree = "<group>"; };
@@ -155,6 +158,7 @@
 		0A1AC0432E2AD474003C2AFC = {
 			isa = PBXGroup;
 			children = (
+				0A0055E82E662047000BA11C /* RELEASES.md */,
 				0A0055E22E6619D7000BA11C /* allowlist.txt */,
 				0A0055DF2E6618DF000BA11C /* sync-latest-commit.sh */,
 				0A3179CE2E440782004A97DE /* .gitignore */,
@@ -339,6 +343,7 @@
 				0A0055E42E6619D7000BA11C /* allowlist.txt in Resources */,
 				0A6EA9D72E5AB7F2003919A2 /* TensionSessionAppIcon.icon in Resources */,
 				0A304F602E5D19AB00593C18 /* PRIVACY.md in Resources */,
+				0A0055EA2E662047000BA11C /* RELEASES.md in Resources */,
 				0A8E62332E3446E200CE4268 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,6 +364,7 @@
 				0A0055E02E6618DF000BA11C /* sync-latest-commit.sh in Resources */,
 				0A0055E32E6619D7000BA11C /* allowlist.txt in Resources */,
 				0A304F5F2E5D19AB00593C18 /* PRIVACY.md in Resources */,
+				0A0055E92E662047000BA11C /* RELEASES.md in Resources */,
 				0A8E62322E3446E200CE4268 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
