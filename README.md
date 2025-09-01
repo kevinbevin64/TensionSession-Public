@@ -1,5 +1,5 @@
 # Tension Session
-
+ 
 **Tension Session** is a gym companion app designed to make your workouts more effective and easier to track.  
 
 ## Key Features
