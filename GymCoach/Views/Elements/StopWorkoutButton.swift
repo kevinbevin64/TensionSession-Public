@@ -24,7 +24,7 @@ struct StopWorkoutButton: ToolbarContent {
                 HStack {
                     Text("Stop")
                     
-                    Image(systemName: "stop.fill")
+                    Image(systemName: "xmark")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 15, height: 15)

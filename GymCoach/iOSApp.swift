@@ -10,8 +10,10 @@ import SwiftUI
 
 @main
 struct iOSApp: App {
-    let dataDelegate: DataDelegate
-    let companion: Companion
+    @State var dataDelegate: DataDelegate
+    @State var companion: Companion
+    @State var workoutDataAnalyzer: WorkoutDataAnalyzer
+    
     
     init() {
         if VersionTracker.shouldStoreAppVersion() {
@@ -29,12 +31,17 @@ struct iOSApp: App {
         let _dataDelegate = DataDelegate(context: context)
         self.dataDelegate = _dataDelegate
         self.companion = Companion(dataDelegate: _dataDelegate)
+        self.workoutDataAnalyzer = WorkoutDataAnalyzer(with: _dataDelegate)
+        
+        self.companion.workoutDataAnalyzer = self.workoutDataAnalyzer
     }
 
     var body: some Scene {
         WindowGroup {
             ContentView(dataDelegate: dataDelegate, companion: companion)
                 .environment(dataDelegate)
+                .environment(companion)
+                .environment(workoutDataAnalyzer)
                 .preferredColorScheme(.dark)
         }
     }

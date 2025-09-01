@@ -8,7 +8,7 @@
 import Foundation
 
 struct VersionTracker {
-    static var appVersion: Int = 1
+    static var appVersion: Int = 2
     static var appVersionKey: String = "app-version"
     
     static func shouldStoreAppVersion() -> Bool {

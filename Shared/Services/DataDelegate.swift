@@ -66,18 +66,13 @@ import SwiftData
     func fetchTemplateWorkouts() -> [Workout] {
         return try! context.fetch(FetchDescriptor<Workout>(
             predicate: #Predicate<Workout> { $0.isTemplate == true },
-            sortBy: [SortDescriptor(\Workout.dateAdded, order: .forward)]
+            sortBy: [SortDescriptor(\Workout.startTime, order: .forward)]
         ))
     }
     
     func addTemplateWorkout(_ workout: Workout) {
         assert(workout.isTemplate == true, "Attempted to add historical workout as template.")
         templateWorkouts.append(workout)
-//        if !templateWorkouts.contains(where: { $0.id == workout.id}) {
-//            templateWorkouts.append(workout)
-//        } else {
-//            devPrint("Attempted to add a template when it already existed")
-//        }
         context.insert(workout)
         try? context.save()
     }
@@ -114,7 +109,13 @@ import SwiftData
         assert(workout.isTemplate == false, "Attempted to add template workout as historical.")
         historicalWorkouts.append(workout)
         context.insert(workout)
-        try? context.save()
+        do {
+            try context.save()
+            print("Saved to local")
+        } catch {
+            
+        }
+//        try? context.save()
     }
     
     func deleteAllHistoricalWorkouts() {

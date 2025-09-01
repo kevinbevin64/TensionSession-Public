@@ -18,6 +18,10 @@ struct PlanView: View {
         self.viewModel = ViewModel(dataDelegate: dataDelegate, companion: companion)
     }
     
+//    var something: some View {
+//        
+//    }
+    
     var body: some View {
         NavigationStack {
             List {

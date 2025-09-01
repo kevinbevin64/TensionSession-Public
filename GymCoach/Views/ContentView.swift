@@ -15,15 +15,15 @@ struct ContentView: View {
     var body: some View {
         TabView {
             Tab("Record", systemImage: "dumbbell.fill") {
-                RecordView(dataDelegate: dataDelegate)
+                RecordGridView()
             }
             
             Tab("Plan", systemImage: "wrench.adjustable.fill") {
-                PlanView(dataDelegate: dataDelegate, companion: companion)
+                PlanGridView()
             }
             
             Tab("Analyze", systemImage: "chart.xyaxis.line") {
-                AnalyzeView(dataDelegate: dataDelegate)
+                AnalyzeGridView()
             }
         }
     }

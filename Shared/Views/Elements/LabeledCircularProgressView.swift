@@ -21,9 +21,39 @@ struct LabeledCircularProgressView<Content: View>: View {
     }
     
     var body: some View {
+        #if os(iOS)
+        
         ZStack {
             Circle()
                 .fill((Color.black.opacity(0.3)))
+            
+            Circle()
+                .stroke(
+                    Color.labeledCircularProgressViewRing,
+                    lineWidth: 5
+                )
+            
+            Circle()
+                .trim(from: 0, to: progress)
+                .stroke(
+                    Color.labeledCircularProgressViewProgress,
+                    // 1
+                    style: StrokeStyle(
+                        lineWidth: 5,
+                        lineCap: .round
+                    )
+                )
+                .rotationEffect(.degrees(-90))
+            
+            label()
+        }
+        
+        #elseif os(watchOS)
+        
+        ZStack {
+            Circle()
+                .fill((Color.black.opacity(0.3)))
+//                .padding(5)
             
             ProgressView(value: progress)
                 .progressViewStyle(.circular)
@@ -31,5 +61,7 @@ struct LabeledCircularProgressView<Content: View>: View {
             
             label()
         }
+        
+        #endif
     }
 }

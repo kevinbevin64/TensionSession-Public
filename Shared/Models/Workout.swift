@@ -83,6 +83,7 @@ final class Workout: Identifiable {
 
     func end() {
         endTime = Date()
+        dateAdded = Date()
         isTemplate = false
     }
 

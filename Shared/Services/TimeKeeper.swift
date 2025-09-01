@@ -21,7 +21,7 @@ final class TimeKeeper: TimeKeeperProtocol {
         let minutes = timeElapsed - seconds
         
         let secondsString = String(format: "%02d", Int(seconds.rounded(.down)))
-        let minutesString = String(format: "%02d", Int(minutes.rounded(.down) / 60))
+        let minutesString = String(format: "%01d", Int(minutes.rounded(.down) / 60))
         return "\(minutesString):\(secondsString)"
     }
     

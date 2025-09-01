@@ -137,11 +137,11 @@ enum WeightAggregationMethod: String, Codable {
 
 @MainActor
 protocol WorkoutDataAnalyzerProtocol {
-    func weightTrendFor(
-        exerciseOfName exerciseName: String,
-        aggregateUsing method: WeightAggregationMethod,
-        limitTo numOfWeightValues: Int // The count of the returned array is ≤ this value
-    ) -> [Weight]
+    init(with dataDelegate: DataDelegate)
+    
+    func addData(from historicalWorkout: Workout)
+    
+    func addData(from exercise: Exercise, date: Date)
 }
 
 // MARK: Keeping time

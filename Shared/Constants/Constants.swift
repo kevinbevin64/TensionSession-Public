@@ -29,6 +29,10 @@ let exerciseRecordCardEdgeInsets = EdgeInsets(top: 12, leading: 15, bottom: 15, 
 // Used for padding the contents of an exercise list item in the AnalyzeView
 let exerciseAnalyzeCardEdgeInsets = EdgeInsets(top: 20, leading: 15, bottom: 20, trailing: 18)
 
+// MARK: - Grids
+
+let gridItemCornerRadius: CGFloat = 30
+
 // MARK: - Pickers
 
 // The amount of spacing between text and a picker when they are placed in a VStack

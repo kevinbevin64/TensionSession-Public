@@ -49,7 +49,8 @@ struct RecordView: View {
                 }
                 .navigationTitle("Record")
                 .navigationDestination(for: Exercise.self) { exercise in
-                    ExerciseView(exercise, viewModel.timeKeeper)
+                    ExerciseView(exercise)
+                        .environment(viewModel.timeKeeper)
                 }
         }
     }
@@ -146,6 +147,7 @@ struct RecordView: View {
                 }
             }
             dataDelegate.addHistoricalWorkout(selectedWorkout)
+//            companion.addHistoricalWorkout(selectedWorkout)
             timeKeeper.reset()
         }
         

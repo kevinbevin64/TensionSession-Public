@@ -13,6 +13,7 @@ import WatchConnectivity
 final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
     private var session: WCSession { WCSession.default }
     private var dataDelegate: DataDelegate
+    var workoutDataAnalyzer: WorkoutDataAnalyzer?
     
     // MARK: - Setup
     init(dataDelegate: DataDelegate) {
@@ -223,7 +224,9 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
         switch instruction.operation {
             
         case .addHistoricalWorkout:
-            dataDelegate.addHistoricalWorkout(Workout(from: instruction.payload)!)
+            let workout = Workout(from: instruction.payload)!
+            dataDelegate.addHistoricalWorkout(workout)
+            workoutDataAnalyzer?.addData(from: workout)
             
         case .updateExerciseWeightsCache:
             let exerciseWeightsCache = ExerciseWeightsCache(from: instruction.payload)!
@@ -300,6 +303,11 @@ final class Companion: NSObject, WCSessionDelegate, CompanionProtocol {
             dataDelegate.userInfo.wasWatchAppInstalled = true
             print("Telling iPhone that watch app was installed.")
             updateUserInfo(dataDelegate.userInfo) // Tell iPhone that watch app was installed
+            
+            // Update the workout data analyzer with the newly found info
+            for historicalWorkout in dataDelegate.historicalWorkouts {
+                workoutDataAnalyzer?.addData(from: historicalWorkout)
+            }
             
     
         #endif
