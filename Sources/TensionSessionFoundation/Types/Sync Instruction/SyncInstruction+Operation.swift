@@ -16,11 +16,14 @@ extension SyncInstruction {
         case editTemplateWorkout
         case deleteTemplateWorkout
         case templateWorkoutsHashCheckReply
+        case exerciseCatalogHashCheckReply
+        case editExerciseCatalog
         
         // watchOS -> iOS
         
         case addHistoricalWorkout
         case templateWorkoutsHashCheckRequest
+        case exerciseCatalogHashCheckRequest
         case addCustomExerciseKindRequest
     }
 }

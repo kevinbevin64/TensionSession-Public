@@ -78,6 +78,7 @@ public extension Companion {
             DispatchQueue.main.async { [weak self] in
                 if self?.isReachable == false && isReachable == true {
                     self?.requestTemplateWorkoutsHashCheck()
+                    self?.requestExerciseCatalogHashCheck()
                 }
             }
         }

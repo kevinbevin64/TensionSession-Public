@@ -8,7 +8,7 @@
 import Foundation
 
 nonisolated
-public struct Weight: Codable, Hashable, Equatable {
+public struct Weight: Codable, Hashable, Equatable, Sendable {
     
     public var value: Double
     

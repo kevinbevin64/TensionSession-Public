@@ -10,7 +10,7 @@ import Foundation
 nonisolated
 public extension Weight {
     
-    nonisolated enum Unit: String, Codable {
+    nonisolated enum Unit: String, Codable, Sendable {
         
         case kilograms
         case pounds

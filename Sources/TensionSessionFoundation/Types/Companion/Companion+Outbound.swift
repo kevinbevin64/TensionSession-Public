@@ -96,6 +96,25 @@ public extension Companion {
             
         }
     }
+    
+    func editExerciseCatalog(_ catalog: Exercise.Catalog) {
+        
+        do {
+            
+            let instruction = SyncInstruction(
+                .editExerciseCatalog,
+                try catalog.dictionaryForm()
+            )
+            let rawInstruction = try instruction.dictionaryForm()
+            
+            send(rawInstruction)
+            
+        } catch {
+            
+            print("ERROR")
+            
+        }
+    }
 }
 #endif // os(iOS)
 
@@ -114,6 +133,37 @@ public extension Companion {
             
             let instruction = SyncInstruction(
                 .templateWorkoutsHashCheckRequest,
+                try hash.dictionaryForm()
+            )
+            let rawInstruction = try instruction.dictionaryForm()
+            
+            sendInstantly(
+                rawInstruction,
+                replyHandler: { dictionary in
+                    print("WATCH RECEIVED REPLY DICTIONARY!!!")
+                    self.process(dictionary)
+                }
+            )
+            
+        } catch {
+            
+            print("ERROR")
+            
+        }
+    }
+    
+    func requestExerciseCatalogHashCheck() {
+        
+        print("Requesting exercise catalog hash check.")
+        
+        do {
+            
+            guard let hash = getExerciseCatalogDTO?().getHash() else {
+                return
+            }
+            
+            let instruction = SyncInstruction(
+                .exerciseCatalogHashCheckRequest,
                 try hash.dictionaryForm()
             )
             let rawInstruction = try instruction.dictionaryForm()

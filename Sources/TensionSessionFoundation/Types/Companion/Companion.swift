@@ -59,13 +59,17 @@ public final class Companion: NSObject, WCSessionDelegate {
     var timerTask: Task<Void, Never>?
     
     var timerAction: (@MainActor () -> Void)?
+    
+    var requestExerciseCatalogHashCheckSchedule: Schedule?
     #endif // os(watchOS)
     
     // MARK: Closures
     
+    public var getExerciseCatalogDTO: (() -> Exercise.Catalog.DTO)?
+    
     #if os(iOS)
     public var receiveAddCustomExerciseKindRequestAction: (() -> Void)?
     #elseif os(watchOS)
-    
+    public var editCatalog: ((Exercise.Catalog.DTO) -> Void)?
     #endif
 }

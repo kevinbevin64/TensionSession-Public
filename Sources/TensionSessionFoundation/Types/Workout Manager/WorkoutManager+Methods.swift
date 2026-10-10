@@ -134,6 +134,19 @@ public extension WorkoutManager {
         
         return hash
     }
+    
+    func add(_ workout: Workout) {
+        
+        workout.order = unsortedTemplates.count
+
+        unsortedTemplates.append(workout)
+
+        if templateBuffer.selection == nil {
+            templateBuffer.insert(workout)
+        }
+        
+        try? save()
+    }
 }
 
 // MARK: Invoked by Companion

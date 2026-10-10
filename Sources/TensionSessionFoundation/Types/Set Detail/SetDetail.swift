@@ -5,7 +5,7 @@
 //  Created by Kevin Chen on 8/22/26.
 //
 
-public struct SetDetail: Codable {
+nonisolated public struct SetDetail: Codable, Sendable {
     
     public var repsDone: Int
     

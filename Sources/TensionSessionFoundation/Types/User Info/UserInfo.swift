@@ -16,13 +16,17 @@ public final class UserInfo {
     
     public var hasWatchCompletedInitialSync: Bool
     
+    public var useAutomaticRepDetection: Bool
+    
     init(
         restSeconds: Int = 120,
         hasLearnedTimeKeeper: Bool = false,
-        hasWatchCompletedInitialSync: Bool = false
+        hasWatchCompletedInitialSync: Bool = false,
+        useAutomaticRepDetection: Bool = true
     ) {
         self.restSeconds = restSeconds
         self.hasLearnedTimeKeeper = hasLearnedTimeKeeper
         self.hasWatchCompletedInitialSync = hasWatchCompletedInitialSync
+        self.useAutomaticRepDetection = useAutomaticRepDetection
     }
 }

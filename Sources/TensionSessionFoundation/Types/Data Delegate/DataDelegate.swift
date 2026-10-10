@@ -31,6 +31,7 @@ final public class DataDelegate {
                      Exercise.self,
                      UserInfo.self,
                      Exercise.Catalog.self,
+                migrationPlan: DataDelegateMigrationPlan.self,
                 configurations: .init(isStoredInMemoryOnly: isStoredInMemoryOnly)
             )
             context = container.mainContext
@@ -106,6 +107,14 @@ final public class DataDelegate {
         companion = Companion()
         companion.userInfo = self.userInfo
         companion.workoutManager = self.workoutManager
+        companion.getExerciseCatalogDTO = {
+            return self.catalog.getDTO()
+        }
+        #if os(watchOS)
+        companion.editCatalog = { newCatalogDTO in
+            self.catalog.all = newCatalogDTO.all
+        }
+        #endif
         companion.activate()
         
         // Savers
