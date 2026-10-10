@@ -28,6 +28,7 @@ enum DataDelegateMigrationPlan: SchemaMigrationPlan {
         [
             OldStore.self,
             StoreV2.self,
+            StoreV2_1.self,
             CurrentStore.self
         ]
     }
@@ -35,7 +36,8 @@ enum DataDelegateMigrationPlan: SchemaMigrationPlan {
     static var stages: [MigrationStage] {
         [
             oldStoreToStoreV2,
-            storeV2ToCurrentStore
+            storeV2ToStoreV2_1,
+            storeV2_1ToCurrentStore
         ]
     }
     
@@ -50,16 +52,21 @@ enum DataDelegateMigrationPlan: SchemaMigrationPlan {
         }
     )
     
-    static let storeV2ToCurrentStore = MigrationStage.custom(
+    static let storeV2ToStoreV2_1 = MigrationStage.custom(
         fromVersion: StoreV2.self,
-        toVersion: CurrentStore.self,
+        toVersion: StoreV2_1.self,
         willMigrate: nil,
         didMigrate: { context in
-            let userInfos = try context.fetch(FetchDescriptor<UserInfo>())
+            let userInfos = try context.fetch(FetchDescriptor<StoreV2_1.UserInfo>())
             for userInfo in userInfos {
                 userInfo.useAutomaticRepDetection = true
             }
             try context.save()
         }
+    )
+    
+    static let storeV2_1ToCurrentStore = MigrationStage.lightweight(
+        fromVersion: StoreV2_1.self,
+        toVersion: CurrentStore.self
     )
 }

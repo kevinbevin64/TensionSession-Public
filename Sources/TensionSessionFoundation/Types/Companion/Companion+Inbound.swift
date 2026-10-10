@@ -320,6 +320,7 @@ public extension Companion {
             switch syncInstruction.operation {
             
             case .addCustomExerciseKindRequest:
+                print("RECEIVED REQUEST")
                 self?.receiveAddCustomExerciseKindRequest()
 
             default:

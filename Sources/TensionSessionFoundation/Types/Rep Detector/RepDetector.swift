@@ -51,6 +51,12 @@ public final class RepDetector {
         }
     }
 
+    public func stop() {
+        
+        motionManager.stopDeviceMotionUpdates()
+        samples.removeAll()
+    }
+
     public func endAndReset() {
         
         motionManager.stopDeviceMotionUpdates()
