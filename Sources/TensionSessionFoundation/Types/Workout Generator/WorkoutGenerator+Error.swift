@@ -6,11 +6,10 @@
 //
 
 #if os(iOS)
-extension WorkoutGenerator {
+public extension WorkoutGenerator {
     
     enum Error: Swift.Error {
         
-        case unavailable
         case generationError
     }
 }
