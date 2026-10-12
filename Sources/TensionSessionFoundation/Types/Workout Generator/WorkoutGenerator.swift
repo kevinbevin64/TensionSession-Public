@@ -13,40 +13,86 @@ import SwiftUI
 public final class WorkoutGenerator {
     
     public var availability = SystemLanguageModel.default.availability
+        
+    public private(set) var stage: Stage
     
-    public init() {}
+    private let catalog: Exercise.Catalog
     
-    public func create(
-        givenDescription description: String,
-        catalog: Exercise.Catalog
-    ) async throws -> GeneratedWorkout {
+    private var activity: Task<Void, Never>?
+    
+    public init(catalog: Exercise.Catalog) {
+        self.stage = .ready
+        self.catalog = catalog
+    }
+    
+    public func generate(
+        accordingTo description: String
+    ) {
         
-        guard availability == .available else {
-            throw Error.unavailable
-        }
+        assert(availability == .available)
+        assert({
+            switch stage {
+            case .ready: return true
+            default: return false
+            }
+        }())
+        assert(activity == nil || activity?.isCancelled == true)
+
+        stage = .active
         
-        let session = LanguageModelSession(
-            model: SystemLanguageModel(),
-            instructions: WorkoutGenerator.instructions
-        )
-        
-        do {
+        activity = Task { [weak self] in
             
-            let schema = try GenerationSchema(
-                root: workoutSchema(kindNames: catalog.all.map(\.name)),
-                dependencies: []
+            guard let self else { return }
+            
+            defer {
+                if Task.isCancelled == false {
+                    self.activity = nil
+                }
+            }
+            
+            let session = LanguageModelSession(
+                model: SystemLanguageModel(),
+                instructions: WorkoutGenerator.instructions
             )
-            let response = try await session.respond(to: description, schema: schema)
-            let generatedWorkout = try GeneratedWorkout(response.content)
-            return generatedWorkout
             
-        } catch {
-            print("Error: \(error.localizedDescription)")
-            throw Error.generationError
+            do {
+                
+                let schema = try GenerationSchema(
+                    root: self.workoutSchema(),
+                    dependencies: []
+                )
+                let response = try await session.respond(to: description, schema: schema)
+                guard Task.isCancelled == false else { return }
+                let generatedWorkout = try GeneratedWorkout(response.content)
+                let workout = try self.workout(from: generatedWorkout)
+                self.stage = .done(workout)
+                
+            } catch is CancellationError {
+                return
+            } catch {
+                guard Task.isCancelled == false else { return }
+                print("Error: \(error.localizedDescription)")
+                self.stage = .errored(.generationError)
+            }
         }
     }
     
-    private func workoutSchema(kindNames: [String]) -> DynamicGenerationSchema {
+    public func cancel() {
+        
+        assert({
+            switch stage {
+            case .active, .done, .errored: return true
+            default: return false
+            }
+        }())
+        
+        stage = .ready
+        activity?.cancel()
+    }
+    
+    private func workoutSchema() -> DynamicGenerationSchema {
+        
+        let kindNames = catalog.all.map(\.name)
         
         let exercise = DynamicGenerationSchema(
             name: "GeneratedExercise",
@@ -95,6 +141,64 @@ public final class WorkoutGenerator {
                     schema: DynamicGenerationSchema(type: String.self)
                 )
             ]
+        )
+    }
+    
+    private func workout(
+        from generatedWorkout: GeneratedWorkout
+    ) throws -> Workout {
+        
+        var exercises = [Exercise]()
+        
+        for (i, generatedExercise) in generatedWorkout.exercises.enumerated() {
+            
+            do {
+                
+                let kind = try catalog.existing(trimmedAndNeatened: generatedExercise.kind)
+                let equipment: Exercise.Equipment = {
+                    switch generatedExercise.equipment {
+                    case .barbell: return .barbell
+                    case .dumbbell: return .dumbbell
+                    case .kettlebell: return .kettlebell
+                    case .machine: return .machine
+                    case .cable: return .cable
+                    case .bodyweight: return .bodyweight
+                    }
+                }()
+                let weight = {
+                    let value = Double(generatedExercise.weightPlanned.wholeNumberValue)
+                                + Double(generatedExercise.weightPlanned.addHalf ? 0.5 : 0)
+                    let unit: Weight.Unit = {
+                        switch generatedExercise.weightPlanned.unit {
+                        case .kilograms: return .kilograms
+                        case .pounds: return .pounds
+                        }
+                    }()
+                    return Weight(value, unit)
+                }()
+                
+                exercises.append(Exercise(
+                    id2: UUID(),
+                    order: i,
+                    kind: kind,
+                    equipment: equipment,
+                    setsPlanned: generatedExercise.setsPlanned,
+                    repsPlanned: generatedExercise.repsPlanned,
+                    weightPlanned: weight,
+                    setDetails: []
+                ))
+            } catch {
+                throw Error.generationError
+            }
+        }
+        
+        return Workout(
+            id2: UUID(),
+            order: 0,
+            name: generatedWorkout.name,
+            state: .unstarted,
+            startInstant: nil,
+            exercises: exercises
         )
     }
 }
