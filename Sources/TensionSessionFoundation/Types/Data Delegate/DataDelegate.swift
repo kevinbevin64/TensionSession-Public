@@ -22,6 +22,8 @@ final public class DataDelegate {
     
     public var companion: Companion
     
+    public var workoutGenerator: WorkoutGenerator
+    
     public init(isStoredInMemoryOnly: Bool) {
         
         do {
@@ -101,6 +103,10 @@ final public class DataDelegate {
             context.insert(catalog)
             try? context.save()
         }
+        
+        // Workout Generator
+        
+        workoutGenerator = WorkoutGenerator(catalog: catalog)
         
         // Companion
         

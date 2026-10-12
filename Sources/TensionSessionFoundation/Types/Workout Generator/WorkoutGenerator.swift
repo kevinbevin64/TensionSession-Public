@@ -20,7 +20,7 @@ public final class WorkoutGenerator {
     
     private var activity: Task<Void, Never>?
     
-    public init(catalog: Exercise.Catalog) {
+    init(catalog: Exercise.Catalog) {
         self.stage = .ready
         self.catalog = catalog
     }
