@@ -138,7 +138,10 @@ public final class WorkoutGenerator {
                 ),
                 DynamicGenerationSchema.Property(
                     name: "description",
-                    description: "A brief description of this workout",
+                    description: """
+                        A short description of this workout under 60 characters long. \
+                        This is a fragment, **not** a sentence.
+                        """,
                     schema: DynamicGenerationSchema(type: String.self)
                 )
             ]
