@@ -64,8 +64,9 @@ public final class WorkoutGenerator {
                 let response = try await session.respond(to: description, schema: schema)
                 guard Task.isCancelled == false else { return }
                 let generatedWorkout = try GeneratedWorkout(response.content)
+                print(generatedWorkout.description)
                 let workout = try self.workout(from: generatedWorkout)
-                self.stage = .done(workout)
+                self.stage = .done(workout, generatedWorkout.description)
                 
             } catch is CancellationError {
                 return

@@ -12,7 +12,7 @@ public extension WorkoutGenerator {
         
         case ready
         case active
-        case done(Workout)
+        case done(Workout, String)
         case errored(Error)
     }
 }
