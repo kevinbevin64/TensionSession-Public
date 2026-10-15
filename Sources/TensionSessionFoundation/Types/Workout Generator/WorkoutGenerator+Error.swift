@@ -19,16 +19,16 @@ public extension WorkoutGenerator {
     
     enum UnavailableReason: String {
         
-        case deviceNotEligible = "This device is not eligible."
+        case deviceNotEligible = "This device is not eligible for this feature."
         
         case appleIntelligenceNotEnabled = """
             Enable Apple Intelligence in \ 
             Settings to use this feature.
             """
 
-        case modelNotReady = "The model is not ready."
+        case modelNotReady = "The on-device model is not ready."
         
-        case other = "The model is unavailable for an unknown reason"
+        case other = "This feature is unavailable for an unknown reason."
     }
 }
 #endif // os(iOS)
