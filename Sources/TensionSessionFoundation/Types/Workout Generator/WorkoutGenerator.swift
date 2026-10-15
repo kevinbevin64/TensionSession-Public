@@ -29,7 +29,6 @@ public final class WorkoutGenerator {
         accordingTo description: String
     ) {
         
-        assert(availability == .available)
         assert({
             switch stage {
             case .ready: return true
@@ -37,6 +36,23 @@ public final class WorkoutGenerator {
             }
         }())
         assert(activity == nil || activity?.isCancelled == true)
+        
+        if case let .unavailable(reason) = availability {
+            
+            switch reason {
+                
+            case .deviceNotEligible:
+                stage = .errored(.unavailable(.deviceNotEligible))
+            case .appleIntelligenceNotEnabled:
+                stage = .errored(.unavailable(.appleIntelligenceNotEnabled))
+            case .modelNotReady:
+                stage = .errored(.unavailable(.modelNotReady))
+            @unknown default:
+                stage = .errored(.unavailable(.other))
+            }
+            
+            return
+        }
 
         stage = .active
         
@@ -55,25 +71,42 @@ public final class WorkoutGenerator {
                 instructions: WorkoutGenerator.instructions
             )
             
+            let response: LanguageModelSession.Response<GeneratedContent>
             do {
-                
                 let schema = try GenerationSchema(
                     root: self.workoutSchema(),
                     dependencies: []
                 )
-                let response = try await session.respond(to: description, schema: schema)
+                response = try await session.respond(to: description, schema: schema)
                 guard Task.isCancelled == false else { return }
-                let generatedWorkout = try GeneratedWorkout(response.content)
-                print(generatedWorkout.description)
-                let workout = try self.workout(from: generatedWorkout)
-                self.stage = .done(workout, generatedWorkout.description)
-                
             } catch is CancellationError {
                 return
             } catch {
-                guard Task.isCancelled == false else { return }
-                print("Error: \(error.localizedDescription)")
-                self.stage = .errored(.generationError)
+                handleSessionResponseError(error)
+                return
+            }
+            
+            let generatedWorkout: GeneratedWorkout
+            do {
+                generatedWorkout = try GeneratedWorkout(response.content)
+            } catch {
+                let reason = "Failed to decode generated content."
+                stage = .errored(.decodingError(reason))
+                return
+            }
+            
+            let workout: Workout
+            do {
+                workout = try self.workout(from: generatedWorkout)
+                stage = .done(workout, generatedWorkout.description)
+            } catch Error.decodingError(let reason) {
+                stage = .errored(.decodingError(reason))
+            } catch {
+                let reason = """
+                    Failed to materialize a workout \
+                    from the generated workout for an unknown reason.
+                    """
+                stage = .errored(.decodingError(reason))
             }
         }
     }
@@ -89,6 +122,93 @@ public final class WorkoutGenerator {
         
         stage = .ready
         activity?.cancel()
+    }
+    
+    private func handleSessionResponseError(_ error: Swift.Error) {
+        
+        let reason: String
+        
+        if #available(iOS 27.0, *) {
+            
+            switch error {
+                
+            case LanguageModelError.contextSizeExceeded:
+                reason = "Generation failed due to excessive context."
+                
+            case LanguageModelError.guardrailViolation:
+                reason = "Generation failed due to a guardrail violation."
+                
+            case LanguageModelError.rateLimited:
+                reason = "Generation failed due to a rate limit."
+                
+            case LanguageModelError.refusal:
+                reason = "Generation failed because the model refused to answer."
+                
+            case LanguageModelError.timeout:
+                reason = "Generation failed due to a timeout."
+                
+            case LanguageModelError.unsupportedCapability:
+                reason = "Generation failed due to an unsupported capability."
+                
+            case LanguageModelError.unsupportedGenerationGuide:
+                reason = "Generation failed due to an unsupported generation guide."
+                
+            case LanguageModelError.unsupportedLanguageOrLocale:
+                reason = "Generation failed due to an unsupported langauge or locale."
+                
+            case LanguageModelError.unsupportedTranscriptContent:
+                reason = "Generation failed due to unsupported transcript content."
+                
+            case LanguageModelSession.Error.concurrentRequests:
+                reason = "Generation failed due to concurrent requests."
+                
+            case LanguageModelSession.Error.transcriptMutationWhileResponding:
+                reason = "Generation failed due to untimely transcript mutation."
+                
+            case SystemLanguageModel.Error.assetsUnavailable:
+                reason = "Generation failed due to unavailable on-device model assets."
+                
+            default:
+                reason = "Generation failed for an unknown reason."
+            }
+            
+        } else {
+            
+            switch error {
+                
+            case LanguageModelSession.GenerationError.exceededContextWindowSize:
+                reason = "Generation failed due to excessive context."
+                
+            case LanguageModelSession.GenerationError.guardrailViolation:
+                reason = "Generation failed due to excessive context."
+                
+            case LanguageModelSession.GenerationError.rateLimited:
+                reason = "Generation failed due to a rate limit."
+                
+            case LanguageModelSession.GenerationError.refusal:
+                reason = "Generation failed because the model refused to answer."
+                
+            case LanguageModelSession.GenerationError.unsupportedGuide:
+                reason = "Generation failed due to an unsupported generation guide."
+                
+            case LanguageModelSession.GenerationError.unsupportedLanguageOrLocale:
+                reason = "Generation failed due to an unsupported langauge or locale."
+                
+            case LanguageModelSession.GenerationError.concurrentRequests:
+                reason = "Generation failed due to concurrent requests."
+                
+            case LanguageModelSession.GenerationError.assetsUnavailable:
+                reason = "Generation failed due to unavailable on-device model assets."
+                
+            case LanguageModelSession.GenerationError.decodingFailure:
+                reason = "Generation failed due to a decoding failure."
+                
+            default:
+                reason = "Generation failed for an unknown reason."
+            }
+        }
+        
+        stage = .errored(.generationError(reason))
     }
     
     private func workoutSchema() -> DynamicGenerationSchema {
@@ -192,7 +312,11 @@ public final class WorkoutGenerator {
                     setDetails: []
                 ))
             } catch {
-                throw Error.generationError
+                let reason = """
+                    Failed to materialize a workout from the \
+                    generated workout due to a missing exercise kind.
+                    """
+                throw Error.decodingError(reason)
             }
         }
         
