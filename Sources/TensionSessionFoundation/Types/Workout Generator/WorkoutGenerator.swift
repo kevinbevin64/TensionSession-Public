@@ -180,7 +180,7 @@ public final class WorkoutGenerator {
                 reason = "Generation failed due to excessive context."
                 
             case LanguageModelSession.GenerationError.guardrailViolation:
-                reason = "Generation failed due to excessive context."
+                reason = "Generation failed due to a guardrail violation."
                 
             case LanguageModelSession.GenerationError.rateLimited:
                 reason = "Generation failed due to a rate limit."
